@@ -63,6 +63,7 @@ def Train(epochs,train_loader,val_loader,criterion,optmizer,device, writer):
         writer.add_scalar("Accuracy/val", val_acc, e)
 
     torch.save(net.state_dict(),'deep_emotion-{}-{}-{}.pt'.format(epochs,batchsize,lr))
+    '''finish'''
     print("===================================Training Finished===================================")
 
 
