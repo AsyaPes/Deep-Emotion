@@ -40,6 +40,11 @@ def Train(epochs,train_loader,val_loader,criterion,optmizer,device, writer):
             train_loss += loss.item()
             _, preds = torch.max(outputs,1)
             train_correct += torch.sum(preds == labels.data)
+            '''confusion matrix'''
+            nb_classes = 8
+            confusion_matrix = torch.zeros(nb_classes, nb_classes)
+            for t, p in zip(labels.view(-1), preds.view(-1)):
+                confusion_matrix[t.long(), p.long()] += 1
 
         #validate the model#
         net.eval()
