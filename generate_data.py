@@ -17,19 +17,114 @@ class Generate_data():
         """
         self.data_path = datapath
 
-    def split_test(self, test_filename = 'finaltest', val_filename= 'val'):
+    def split_test(self, train_filename = 'train', val_filename= 'val', test_filename = 'finaltest'):
         """
         Helper function to split the validation and test data from general test file as it contains (Public test, Private test)
             params:-
                 data_path = path to the folder that contains the test data file
         """
-        csv_path = self.data_path +"/"+ 'test.csv'
+        csv_path = self.data_path +"/"+ 'def.csv'
         test = pd.read_csv(csv_path)
-        validation_data = pd.DataFrame(test.iloc[:3589,:])
-        test_data = pd.DataFrame(test.iloc[3589:,:])
-        test_data.to_csv(self.data_path+"/"+test_filename+".csv")
+
+
+
+        neutral=test[test.emotion==0]
+        anger=test[test.emotion==1]
+        contempt=test[test.emotion==2]
+        disgust=test[test.emotion==3]
+        fear=test[test.emotion==4]
+        happy=test[test.emotion==5]
+        sadness=test[test.emotion==6]
+        surprise=test[test.emotion==7]
+
+        total_len = len(test.index.values)
+
+        neutral_len = len(neutral.index.values)
+        anger_len = len(anger.index.values)
+        contempt_len = len(contempt.index.values)
+        disgust_len = len(disgust.index.values)
+        fear_len = len(fear.index.values)
+        happy_len = len(happy.index.values)
+        sadness_len = len(sadness.index.values)
+        surprise_len = len(surprise.index.values)
+
+        train_perc=round(70/100*2909)
+        val_perc=round(20/100*2909)
+        test_perc=round(10/100*2909)
+
+
+        training_data = pd.DataFrame(anger.iloc[:(round(17.3/100*train_perc)),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv")
+
+        training_data=pd.DataFrame(contempt.iloc[:round(4.1/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+        training_data=pd.DataFrame(disgust.iloc[:round(14.6/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+        training_data=pd.DataFrame(fear.iloc[:round(9.3/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+        training_data=pd.DataFrame(happy.iloc[:round(22.7/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+        training_data=pd.DataFrame(sadness.iloc[:round(9.4/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+        training_data=pd.DataFrame(surprise.iloc[:round(22.6/100*train_perc),:])
+        training_data.to_csv(self.data_path+"/"+train_filename+".csv", mode='a', header=False)
+
+
+
+
+        validation_data = pd.DataFrame(anger.iloc[round(17.3/100*train_perc):round(17.3/100*train_perc)+round(17.3/100*val_perc),:])
         validation_data.to_csv(self.data_path+"/"+val_filename+".csv")
-        print("Done splitting the test file into validation & final test file")
+
+        validation_data=pd.DataFrame(contempt.iloc[round(4.1/100*train_perc):round(4.1/100*train_perc)+round(4.1/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+        validation_data=pd.DataFrame(disgust.iloc[round(14.6/100*train_perc):round(14.6/100*train_perc)+round(14.6/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+        validation_data=pd.DataFrame(fear.iloc[round(9.3/100*train_perc):round(9.3/100*train_perc)+round(9.3/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+        validation_data=pd.DataFrame(happy.iloc[round(22.7/100*train_perc):round(22.7/100*train_perc)+round(22.7/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+        validation_data=pd.DataFrame(sadness.iloc[round(9.4/100*train_perc):round(9.4/100*train_perc)+round(9.4/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+        validation_data=pd.DataFrame(surprise.iloc[round(22.6/100*train_perc):round(22.6/100*train_perc)+round(22.6/100*val_perc),:])
+        validation_data.to_csv(self.data_path+"/"+val_filename+".csv", mode='a', header=False)
+
+
+
+
+
+        test_data = pd.DataFrame(anger.iloc[round(17.3/100*train_perc)+round(17.3/100*val_perc):round(17.3/100*train_perc)+round(17.3/100*val_perc)+round(17.3/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv")
+
+        test_data=pd.DataFrame(contempt.iloc[round(4.1/100*train_perc)+round(4.1/100*val_perc):round(4.1/100*train_perc)+round(4.1/100*val_perc)+round(4.1/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        test_data=pd.DataFrame(disgust.iloc[round(14.6/100*train_perc)+round(14.6/100*val_perc):round(14.6/100*train_perc)+round(14.6/100*val_perc)+round(14.6/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        test_data=pd.DataFrame(fear.iloc[round(9.3/100*train_perc)+round(9.3/100*val_perc):round(9.3/100*train_perc)+round(9.3/100*val_perc)+round(9.3/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        test_data=pd.DataFrame(happy.iloc[round(22.7/100*train_perc)+round(22.7/100*val_perc):round(22.7/100*train_perc)+round(22.7/100*val_perc)+round(22.7/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        test_data=pd.DataFrame(sadness.iloc[round(9.4/100*train_perc)+round(9.4/100*val_perc):round(9.4/100*train_perc)+round(9.4/100*val_perc)+round(9.4/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        test_data=pd.DataFrame(surprise.iloc[round(22.6/100*train_perc)+round(22.6/100*val_perc):round(22.6/100*train_perc)+round(22.6/100*val_perc)+round(22.6/100*test_perc),:])
+        test_data.to_csv(self.data_path+"/"+test_filename+".csv", mode='a', header=False)
+
+        print("Done splitting the test file into validation & final test file",validation_data)
+
 
     def str_to_image(self, str_img = ' '):
         '''
